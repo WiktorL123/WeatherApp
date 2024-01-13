@@ -10,7 +10,7 @@ import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherSettings
 import pl.nauka.weatherappdata.repositories.ICatalogData;
 import pl.nauka.weatherappupdater.mapers.*;
 
-@AllArgsConstructor
+
 @Service
 public class Updater implements IUpdate{
 
@@ -23,17 +23,25 @@ public class Updater implements IUpdate{
    private final WeatherConditionsMapper conditionsMapper;
 
    private final ForecastMapper forecastMapper;
-   
+
    private final IWeatherSettings settings;
-
-
-
+        @Autowired
+    public Updater(ICatalogData dbCatalog, IWeatherClient client, CityMapper cityMapper,
+                   WeatherConditionsMapper conditionsMapper, ForecastMapper forecastMapper,
+                   IWeatherSettings settings) {
+        this.dbCatalog = dbCatalog;
+        this.client = client;
+        this.cityMapper = cityMapper;
+        this.conditionsMapper = conditionsMapper;
+        this.forecastMapper = forecastMapper;
+        this.settings = settings;
+    }
 
     @Override
     public void updateByCityName(String cityName ){
         var cityDto=client.getCityInfo(cityName);
         saveCity(cityDto);
-        saveCoditions(cityDto);
+        saveConditions(cityDto);
         saveForecast(cityDto);
 
 
@@ -50,7 +58,7 @@ public class Updater implements IUpdate{
         dbCatalog.getCities().save(city);
     }
 
-    private void saveCoditions(CityDto cityDto) {
+    private void saveConditions(CityDto cityDto) {
         var conditionsDto=client.getCurrentWeather(cityDto.getKey());
         var conditions=conditionsMapper.map(conditionsDto);
         dbCatalog.getWeatherConditions().save(conditions);
