@@ -13,6 +13,7 @@ public class WeatherClient implements IWeatherClient {
     private final RestTemplate restTemplate;
     private final IWeatherSettings settings;
 
+
     public WeatherClient(@Qualifier("getSettings") IWeatherSettings settings, RestTemplate restTemplate) {
         this.settings = settings;
         this.restTemplate = restTemplate;

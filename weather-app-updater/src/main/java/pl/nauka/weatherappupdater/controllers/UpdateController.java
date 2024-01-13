@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.nauka.weatherappupdater.updater.IUpdate;
 import pl.nauka.weatherappupdater.updater.Updater;
@@ -15,6 +16,7 @@ import pl.nauka.weatherappupdater.updater.Updater;
 @Controller
 @Component
 public class UpdateController {
+    @Autowired
     private final IUpdate updater;
 
     public UpdateController(IUpdate updater) {
@@ -22,7 +24,7 @@ public class UpdateController {
     }
 
     @GetMapping("update/{cityName}")
-    public ResponseEntity update(@RequestParam String cityName){
+    public ResponseEntity update( @PathVariable String cityName){
         updater.updateByCityName(cityName);
         return ResponseEntity.ok("update started");
 

@@ -1,29 +1,33 @@
 package pl.nauka.weatherappupdater.updater;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.nauka.weatherappclient.weatherClient.contract.city.CityDto;
 import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherClient;
+import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherSettings;
 import pl.nauka.weatherappdata.repositories.ICatalogData;
 import pl.nauka.weatherappupdater.mapers.*;
 
+@AllArgsConstructor
 @Service
 public class Updater implements IUpdate{
+
     private final ICatalogData dbCatalog;
+
     private final IWeatherClient client;
 
    private final CityMapper cityMapper;
+
    private final WeatherConditionsMapper conditionsMapper;
+
    private final ForecastMapper forecastMapper;
+   
+   private final IWeatherSettings settings;
 
 
-    public Updater(@Qualifier("ICatalogData") ICatalogData dbCatalog, @Qualifier("IWeatherClient") IWeatherClient client, CityMapper cityMapper, WeatherConditionsMapper conditionsMapper, ForecastMapper forecastMapper) {
-        this.dbCatalog = dbCatalog;
-        this.client = client;
-        this.cityMapper = cityMapper;
-        this.conditionsMapper = conditionsMapper;
-        this.forecastMapper = forecastMapper;
-    }
+
 
     @Override
     public void updateByCityName(String cityName ){
