@@ -1,5 +1,6 @@
 package pl.nauka.weatherappupdater.updater;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.nauka.weatherappclient.weatherClient.contract.city.CityDto;
 import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherClient;
@@ -16,7 +17,7 @@ public class Updater implements IUpdate{
    private final ForecastMapper forecastMapper;
 
 
-    public Updater(ICatalogData dbCatalog, IWeatherClient client,  CityMapper cityMapper, WeatherConditionsMapper conditionsMapper, ForecastMapper forecastMapper) {
+    public Updater(@Qualifier("ICatalogData") ICatalogData dbCatalog, @Qualifier("IWeatherClient") IWeatherClient client, CityMapper cityMapper, WeatherConditionsMapper conditionsMapper, ForecastMapper forecastMapper) {
         this.dbCatalog = dbCatalog;
         this.client = client;
         this.cityMapper = cityMapper;
