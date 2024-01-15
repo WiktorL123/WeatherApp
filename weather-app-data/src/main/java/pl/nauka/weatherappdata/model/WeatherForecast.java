@@ -1,9 +1,13 @@
 package pl.nauka.weatherappdata.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 public class WeatherForecast {
     @Id
@@ -30,51 +34,4 @@ public class WeatherForecast {
         this.description = description;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public double getMaxTemperature() {
-        return maxTemperature;
-    }
-
-    public void setMaxTemperature(double maxTemperature) {
-        this.maxTemperature = maxTemperature;
-    }
-
-    public double getMinTemperature() {
-        return minTemperature;
-    }
-
-    public void setMinTemperature(double minTemperature) {
-        this.minTemperature = minTemperature;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

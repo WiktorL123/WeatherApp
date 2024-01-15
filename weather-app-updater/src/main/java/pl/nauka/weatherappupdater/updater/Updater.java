@@ -24,25 +24,24 @@ public class Updater implements IUpdate{
 
    private final ForecastMapper forecastMapper;
 
-   private final IWeatherSettings settings;
+
         @Autowired
-    public Updater(ICatalogData dbCatalog, IWeatherClient client, CityMapper cityMapper,
-                   WeatherConditionsMapper conditionsMapper, ForecastMapper forecastMapper,
-                   IWeatherSettings settings) {
+    public Updater(ICatalogData  dbCatalog, IWeatherClient client, CityMapper cityMapper,
+                   WeatherConditionsMapper conditionsMapper, ForecastMapper forecastMapper) {
         this.dbCatalog = dbCatalog;
         this.client = client;
         this.cityMapper = cityMapper;
         this.conditionsMapper = conditionsMapper;
         this.forecastMapper = forecastMapper;
-        this.settings = settings;
+
     }
 
     @Override
     public void updateByCityName(String cityName ){
         var cityDto=client.getCityInfo(cityName);
         saveCity(cityDto);
-        saveConditions(cityDto);
-        saveForecast(cityDto);
+       // saveConditions(cityDto);
+       // saveForecast(cityDto);
 
 
     }

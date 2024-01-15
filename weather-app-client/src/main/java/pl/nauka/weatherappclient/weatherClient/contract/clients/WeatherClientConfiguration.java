@@ -7,22 +7,18 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class WeatherClientConfiguration {
-    @Value("${accuweather.api.key}")
-    String apiKey;
-    @Value("${accuweather.api.baseUrl}")
-    String baseUrl;
-    @Value("${accuweather.api.version}")
-    int version;
+
+    public IWeatherSettings getSettings(     @Value("${accuweather.api.key}")
+                                             String apiKey,
+                                             @Value("${accuweather.api.baseUrl}")
+                                             String baseUrl,
+                                             @Value("${accuweather.api.version}")
+                                             int version ){
+
+        return new WeatherSettings();
+    }
 
 
-    @Bean
-    public WeatherSettings getSettings(){
-        return new  WeatherSettings();
-    }
-    @Bean
-    public RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
 
 
 }

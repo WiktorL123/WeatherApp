@@ -1,6 +1,7 @@
 package pl.nauka.weatherappclient.weatherClient.contract.clients;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import pl.nauka.weatherappclient.weatherClient.contract.city.CityDto;
@@ -8,29 +9,38 @@ import pl.nauka.weatherappclient.weatherClient.contract.conditions.ConditionsDto
 import pl.nauka.weatherappclient.weatherClient.contract.forecast.DailyForecastDto;
 
 @Component
+@Setter
+
 public class WeatherClient implements IWeatherClient {
 
+
     private final RestTemplate restTemplate;
+
     private final IWeatherSettings settings;
-
-
-    public WeatherClient( IWeatherSettings settings, RestTemplate restTemplate) {
+    String baseurl;
+    String apiKey;
+    String baseUrl;
+    public WeatherClient( IWeatherSettings settings) {
+        this.baseurl=settings.getBaseUrl();
+        this.apiKey= settings.getApiKey();
         this.settings = settings;
-        this.restTemplate = restTemplate;
+        this.restTemplate = new RestTemplate();
+        this.baseUrl=settings.getBaseUrl();
     }
+
+
+    public String getSomeString(){return "some string";}
 
     @Override
     public CityDto getCityInfo(String cityName) {
         String url=settings.getComponentsBuilder()
                 .pathSegment("locations")
                 .pathSegment("v1")
-                .queryParam("apikey", settings.getApiKey())
+                .queryParam("apikey", apiKey)
                 .queryParam("q", cityName)
-                .build().toUriString()
-                ;
+                .build().toUriString();
 
-        var response= restTemplate.getForObject(url, CityDto.class);
-            return response;
+        return restTemplate.getForObject(url, CityDto.class);
     }
 
     @Override
@@ -42,8 +52,8 @@ public class WeatherClient implements IWeatherClient {
                 .queryParam("apikey", settings.getApiKey())
                 .build().toUriString();
         var response=restTemplate.getForObject(url, ConditionsDto.class);
-        var city=getCityInfo("gdansk");
         assert response != null;
+        var city=getCityInfo(response.getCity().getEnglishName());
         response.setCity(city);
         return response;
     }
@@ -59,8 +69,8 @@ public class WeatherClient implements IWeatherClient {
                 .build().toUriString();
 
         var response= restTemplate.getForObject(url, DailyForecastDto.class);
-        var city=getCityInfo("gdansk");
         assert response != null;
+        var city=getCityInfo(response.getCity().getEnglishName());
         response.setCity(city);
 
         return response;

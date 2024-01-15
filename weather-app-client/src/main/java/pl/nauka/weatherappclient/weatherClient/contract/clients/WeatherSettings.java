@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 @Component
 @Setter
-@Service
+
 public class WeatherSettings  implements IWeatherSettings{
     @Value("${accuweather.api.key}")
     private String apiKey;
@@ -15,8 +15,12 @@ public class WeatherSettings  implements IWeatherSettings{
     private String baseUrl;
     @Value("${accuweather.api.version}")
     private int apiVersion;
+    public WeatherSettings() {
+        System.out.println("ApiKey: " + apiKey);
+        System.out.println("BaseUrl: " + baseUrl);
+        System.out.println("ApiVersion: " + apiVersion);
 
-
+    }
     @Override
     public String getApiKey() {
         return apiKey;
@@ -32,14 +36,7 @@ public class WeatherSettings  implements IWeatherSettings{
         return apiVersion;
     }
 
-    @Override
-    public UriComponentsBuilder getComponentsBuilder() {
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host(getBaseUrl())
-                .pathSegment("v"+getApiVersion());
-    }
+
 
 
 }
