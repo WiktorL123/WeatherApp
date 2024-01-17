@@ -15,6 +15,7 @@ public class NightDto {
 
     @JsonProperty("HasPrecipitation")
     private boolean hasPrecipitation;
+
     @JsonProperty("PrecipitationIntensity")
     private String precipitationIntensity;
 }

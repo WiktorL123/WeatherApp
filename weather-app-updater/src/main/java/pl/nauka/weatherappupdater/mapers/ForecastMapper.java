@@ -19,8 +19,8 @@ public class ForecastMapper implements IMapEntity<WeatherForecast, DailyForecast
 
         var city = cityMapper.map(cityDto);
         weatherForecast.setCity(city);
-        weatherForecast.setMaxTemperature(dto.getTemperature().getMaximumTemperature().getValue());
-        weatherForecast.setMinTemperature(dto.getTemperature().getMinimumTemperature().getValue());
+        //weatherForecast.setMaxTemperature(dto.getTemperature().getMaximum().getMaximum();
+      //  weatherForecast.setMinTemperature(dto.g);
 
 
         return weatherForecast;

@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class TemperatureForecastDto {
     @JsonProperty("Minimum")
-    private TemperatureForecastDto minimum;
+    private MinimumT minimum;
 
     @JsonProperty("Maximum")
-    private TemperatureForecastDto maximum;
+    private MaximumT maximum;
 }
