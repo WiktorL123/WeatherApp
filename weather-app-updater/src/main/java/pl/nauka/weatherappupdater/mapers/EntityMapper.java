@@ -1,9 +1,9 @@
 package pl.nauka.weatherappupdater.mapers;
 
 import lombok.AllArgsConstructor;
-import pl.nauka.weatherappclient.weatherClient.contract.city.CityDto;
-import pl.nauka.weatherappclient.weatherClient.contract.conditions.ConditionsDto;
-import pl.nauka.weatherappclient.weatherClient.contract.forecast.ForecastDto;
+import pl.nauka.weatherappclient.weatherClient.contract.CityDto;
+import pl.nauka.weatherappclient.weatherClient.contract.ConditionsDto;
+import pl.nauka.weatherappclient.weatherClient.contract.ForecastDto;
 import pl.nauka.weatherappdata.model.City;
 import pl.nauka.weatherappdata.model.WeatherConditions;
 import pl.nauka.weatherappdata.model.WeatherForecast;

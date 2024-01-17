@@ -1,8 +1,8 @@
 package pl.nauka.weatherappupdater.mapers;
 
 import org.springframework.stereotype.Component;
-import pl.nauka.weatherappclient.weatherClient.contract.city.CityDto;
-import pl.nauka.weatherappclient.weatherClient.contract.forecast.DailyForecastDto;
+import pl.nauka.weatherappclient.weatherClient.contract.CityDto;
+import pl.nauka.weatherappclient.weatherClient.contract.DailyForecastDto;
 import pl.nauka.weatherappdata.model.WeatherForecast;
 @Component
 public class ForecastMapper implements IMapEntity<WeatherForecast, DailyForecastDto> {
@@ -19,8 +19,8 @@ public class ForecastMapper implements IMapEntity<WeatherForecast, DailyForecast
 
         var city = cityMapper.map(cityDto);
         weatherForecast.setCity(city);
-        weatherForecast.setMaxTemperature(dto.getTemperature().getMaximum().getValue());
-        weatherForecast.setMinTemperature(dto.getTemperature().getMinimum().getValue());
+        weatherForecast.setMaxTemperature(dto.getTemperature().getMaximumTemperature().getValue());
+        weatherForecast.setMinTemperature(dto.getTemperature().getMinimumTemperature().getValue());
 
 
         return weatherForecast;

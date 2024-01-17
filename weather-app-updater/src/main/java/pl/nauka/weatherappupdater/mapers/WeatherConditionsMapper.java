@@ -1,8 +1,8 @@
 package pl.nauka.weatherappupdater.mapers;
 
 import org.springframework.stereotype.Component;
-import pl.nauka.weatherappclient.weatherClient.contract.city.CityDto;
-import pl.nauka.weatherappclient.weatherClient.contract.conditions.ConditionsDto;
+import pl.nauka.weatherappclient.weatherClient.contract.CityDto;
+import pl.nauka.weatherappclient.weatherClient.contract.ConditionsDto;
 import pl.nauka.weatherappdata.model.WeatherConditions;
 
 import java.time.LocalDateTime;

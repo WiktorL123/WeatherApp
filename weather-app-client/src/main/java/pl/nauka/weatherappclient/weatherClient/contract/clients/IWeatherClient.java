@@ -1,16 +1,18 @@
 package pl.nauka.weatherappclient.weatherClient.contract.clients;
 
-import org.springframework.stereotype.Component;
-import pl.nauka.weatherappclient.weatherClient.contract.city.CityDto;
-import pl.nauka.weatherappclient.weatherClient.contract.conditions.ConditionsDto;
-import pl.nauka.weatherappclient.weatherClient.contract.forecast.DailyForecastDto;
+import pl.nauka.weatherappclient.weatherClient.contract.CityDto;
+import pl.nauka.weatherappclient.weatherClient.contract.ConditionsDto;
+import pl.nauka.weatherappclient.weatherClient.contract.DailyForecastDto;
+import pl.nauka.weatherappclient.weatherClient.contract.ForecastDto;
+
+import java.util.List;
 
 
 public interface IWeatherClient {
-    CityDto getCityInfo(String cityName);
-    ConditionsDto getCurrentWeather(String cityKey);
+    List<CityDto>getCityInfo(String cityName);
+    List<ConditionsDto> getCurrentWeather(String cityKey);
 
-    DailyForecastDto getWeatherForecast(String cityKey);
+    ForecastDto getWeatherForecast(String cityKey);
 
 
 

@@ -6,11 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MetricDto {
+public class MinimumT {
     @JsonProperty("Value")
     private double value;
     @JsonProperty("Unit")
     private String unit;
     @JsonProperty("UnitType")
-    private int unitType;
+    private int UnitType;
+
 }
