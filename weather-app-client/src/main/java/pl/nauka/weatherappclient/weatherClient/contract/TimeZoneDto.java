@@ -15,8 +15,10 @@ public class TimeZoneDto {
 
 @JsonProperty("GmtOffset")
     private double gmtOffset;
+
 @JsonProperty("IsDayLightSaving")
     private boolean isDaylightSaving;
+
 @JsonProperty("NextOffsetChange")
     private String nextOffsetChange;
 }

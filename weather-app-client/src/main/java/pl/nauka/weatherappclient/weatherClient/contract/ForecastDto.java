@@ -10,10 +10,8 @@ import java.util.List;
 public class ForecastDto {
     @JsonProperty("Headline")
     private HeadlineDto headline;
-    @JsonProperty("DailyForecast")
+    @JsonProperty("DailyForecasts")
     private List<DailyForecastDto>dailyForecasts;
-    private String mobileLink;
-    @JsonProperty("Link")
-    private String link;
+
 
 }

@@ -10,29 +10,41 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CityDto {
-@JsonProperty("Version")
+public class CityInfoDto {
+
+    @JsonProperty("Version")
     private int version;
-@JsonProperty("Key")
+
+    @JsonProperty("Key")
     private String key;
-@JsonProperty("Type")
+
+    @JsonProperty("Type")
     private String type;
-@JsonProperty("Rank")
+
+    @JsonProperty("Rank")
     private int rank;
-@JsonProperty("LocalizedName")
+
+    @JsonProperty("LocalizedName")
     private String localizedName;
-@JsonProperty("EnglishName")
+
+    @JsonProperty("EnglishName")
     private String englishName;
-@JsonProperty("PrimaryPostalCode")
+
+    @JsonProperty("PrimaryPostalCode")
     private String primaryPostalCode;
-@JsonProperty("Region")
+
+    @JsonProperty("Region")
     private RegionDto region;
-@JsonProperty("Country")
+
+    @JsonProperty("Country")
     private CountryDto country;
+
     @JsonProperty("AdministrativeArea")
     private AdministrativeAreaDto administrativeArea;
+
     @JsonProperty("TimeZone")
     private TimeZoneDto timeZone;
+
     @JsonProperty("GeoPosition")
     private GeoPositionDto geoPosition;
 

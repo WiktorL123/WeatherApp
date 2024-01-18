@@ -16,14 +16,14 @@ public class City {
     private long id;
     private String cityKey;
     private String cityName;
-    private String Country;
+    private String country;
     private String timeZone;
 
     public City(long id, String cityKey, String cityName, String country, String timeZone) {
         this.id = id;
         this.cityKey = cityKey;
         this.cityName = cityName;
-        Country = country;
+        this.country = country;
         this.timeZone = timeZone;
     }
 

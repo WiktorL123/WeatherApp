@@ -4,13 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import pl.nauka.weatherappclient.weatherClient.contract.CityDto;
-import pl.nauka.weatherappclient.weatherClient.contract.ConditionsDto;
 import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherSettings;
 import pl.nauka.weatherappupdater.updater.IUpdate;
-
-import java.util.List;
 
 @Controller
 
@@ -57,16 +52,19 @@ public class UpdateController {
         return ResponseEntity.ok(
                 cityInfo.getLocalizedName());
     }
-        @GetMapping("test/forecast")
-                public ResponseEntity<String>getForecast(){
-            var forecastInfo=updater.getForecastInfo();
-            return ResponseEntity.ok(forecastInfo.getLink());
-        }
+//        @GetMapping("test/forecast")
+//                public ResponseEntity<String>getForecast(){
+//            var forecastInfo=updater.getDailyForecast();
+//            return ResponseEntity.ok(forecastInfo.getDailyForecasts().get(0).getDate());
+//        }
 
 
     @GetMapping("/test")
     public ResponseEntity<String> test(){
-
+            updater.updateByCityName("gdansk");
+         //  var forecast = updater.getDailyForecast();
+         //  var conditions=updater.getConditions();
+    //    return ResponseEntity.status(HttpStatus.OK).body("OK"+conditions.getWeatherText()+ " " +forecast.getHeadline().getText());
         return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
 }

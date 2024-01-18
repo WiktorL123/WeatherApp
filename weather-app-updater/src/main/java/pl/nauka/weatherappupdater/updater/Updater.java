@@ -2,11 +2,13 @@ package pl.nauka.weatherappupdater.updater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.nauka.weatherappclient.weatherClient.contract.CityDto;
+import pl.nauka.weatherappclient.weatherClient.contract.CityInfoDto;
 import pl.nauka.weatherappclient.weatherClient.contract.ConditionsDto;
 import pl.nauka.weatherappclient.weatherClient.contract.DailyForecastDto;
 import pl.nauka.weatherappclient.weatherClient.contract.ForecastDto;
 import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherClient;
+import pl.nauka.weatherappdata.model.WeatherConditions;
+import pl.nauka.weatherappdata.model.WeatherForecast;
 import pl.nauka.weatherappdata.repositories.ICatalogData;
 import pl.nauka.weatherappupdater.mapers.*;
 
@@ -39,9 +41,18 @@ public class Updater implements IUpdate{
     }
 
     @Override
-    public void updateByCityName(String cityName ){
-        //var cityDto=client.getCityInfo(cityName);
-        var weather=client.getCurrentWeather("1-275174_1_AL");
+    public void updateByCityName(String cityName){
+        var cityDto=client.getCityInfo(cityName).get(0);
+
+        var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityName);
+
+        var conditionsDto=client.getCurrentWeather(cityDto.getKey(), cityName).get(0);
+       WeatherForecast forecast=forecastMapper.map(forecastDto, cityDto);
+
+
+        WeatherConditions conditions = conditionsMapper.map(conditionsDto, cityDto);
+        System.out.println(forecast.getDescription());
+        System.out.println(conditions.getDescription());
 
       //  saveCity(cityDto);
        // saveConditions(cityDto);
@@ -49,49 +60,65 @@ public class Updater implements IUpdate{
 
 
     }
-
     @Override
-    public CityDto getCity() {
-        return client.getCityInfo("gdansk").get(0);
-    }
-    //    public CityDto getNameOfCity(String cityName){
-//
-//    }
+    public ForecastDto getDailyForecast(){
+            String string="1-275174_1_AL";
+            return client.getWeatherForecast(string, "gdansk");
 
-
-    @Override
-    public List<CityDto> getNameOfCity(String cityName) {
-    return client.getCityInfo(cityName);
-
-    }
-
-    @Override
-    public ForecastDto getForecastInfo() {
-        return client.getWeatherForecast("1-275174_1_AL");
     }
 
     @Override
     public ConditionsDto getConditions() {
-        return client.getCurrentWeather("1-275174_1_AL").get(0);
+        String string="1-275174_1_AL";
+        return client.getCurrentWeather(string, "gdansk").get(0);
     }
 
     @Override
-    public ConditionsDto getText(String cityKey) {
-        return client.getCurrentWeather("1-275174_1_AL").get(0);
+    public CityInfoDto getCity() {
+        return null;
     }
+    //    @Override
+//    public CityInfoDto getCity() {
+//        return client.getCityInfo("bartoszyce").get(0);
+//    }
+//        public CityDto getNameOfCity(String cityName){
+//
+//    }
 
-//    private void saveForecast(CityDto cityDto) {
-//        var forecastDto =client.getWeatherForecast(cityDto.getKey());
+
+//    @Override
+//    public List<CityInfoDto> getNameOfCity(String cityName) {
+//    return client.getCityInfo(cityName);
+//
+//    }
+
+//    @Override
+//    public ForecastDto getForecastInfo() {
+//        return client.getWeatherForecast("266362");
+//    }
+
+//    @Override
+//    public ConditionsDto getConditions() {
+//        return client.getCurrentWeather("266362").get(0);
+//    }
+
+//    @Override
+//    public ConditionsDto getText(String cityKey) {
+//        return client.getCurrentWeather("1-275174_1_AL").get(0);
+//    }
+
+//    private void saveForecast(CityInfoDto cityDto) {
+//        var forecastDto =client.getWeatherForecast(CityInfoDto.getKey());
 //        var forecast=forecastMapper.map(forecastDto);
 //        dbCatalog.getWeatherForecast().save(forecast);
 //    }
 
-//    private void saveCity(CityDto cityDto) {
-//        var city = cityMapper.map(cityDto);
-//        dbCatalog.getCities().save(city);
-//    }
+    private void saveCity(CityInfoDto cityDto) {
+        var city = cityMapper.map(cityDto);
+        dbCatalog.getCities().save(city);
+    }
 
-//    private void saveConditions(CityDto cityDto) {
+//    private void saveConditions(CityInfoDto cityDto) {
 //        var conditionsDto=client.getCurrentWeather(cityDto.getKey());
 //        var conditions=conditionsMapper.map(conditionsDto);
 //        dbCatalog.getWeatherConditions().save(conditions);
