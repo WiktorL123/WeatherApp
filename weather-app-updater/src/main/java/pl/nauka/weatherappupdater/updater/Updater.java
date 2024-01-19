@@ -43,6 +43,7 @@ public class Updater implements IUpdate{
     @Override
     public void updateByCityName(String cityName){
         var cityDto=client.getCityInfo(cityName).get(0);
+        var city=cityMapper.map(cityDto);
 
         var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityName);
 
@@ -53,6 +54,8 @@ public class Updater implements IUpdate{
         WeatherConditions conditions = conditionsMapper.map(conditionsDto, cityDto);
         System.out.println(forecast.getDescription());
         System.out.println(conditions.getDescription());
+        System.out.println(city.getCityName());
+
 
       //  saveCity(cityDto);
        // saveConditions(cityDto);
