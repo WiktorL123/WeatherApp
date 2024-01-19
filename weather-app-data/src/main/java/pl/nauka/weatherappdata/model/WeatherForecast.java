@@ -14,12 +14,20 @@ public class WeatherForecast {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "city_key")
     private City city;
+
+    @Column(name = "date")
     private LocalDateTime dateTime;
+
+    @Column(name = "max_temperature")
     private double maxTemperature;
+
+    @Column(name = "min_temperature")
     private double minTemperature;
+
+    @Column(name = "description")
     private String description;
 
     public WeatherForecast() {

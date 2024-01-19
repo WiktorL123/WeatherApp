@@ -61,7 +61,8 @@ public class UpdateController {
 
     @GetMapping("/test")
     public ResponseEntity<String> test(){
-            updater.updateByCityName("gdansk");
+            //updater.testAllMapers();
+        updater.saveDataByCityName("bartoszyce");
          //  var forecast = updater.getDailyForecast();
          //  var conditions=updater.getConditions();
     //    return ResponseEntity.status(HttpStatus.OK).body("OK"+conditions.getWeatherText()+ " " +forecast.getHeadline().getText());

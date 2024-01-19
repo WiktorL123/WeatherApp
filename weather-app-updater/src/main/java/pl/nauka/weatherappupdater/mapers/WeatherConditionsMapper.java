@@ -31,7 +31,7 @@ public class WeatherConditionsMapper {
         conditions.setTemperature(dto.getTemperature().getMetric().getValue());
         conditions.setDate(parseToLocalDateTime(dto.getLocalObservationDateTime()));
         conditions.setCity(city);
-        System.out.println(conditions.getCity().getCityName());
+        System.out.println(conditions.getCity().getCityKey());
         return conditions;
     }
     private static LocalDateTime parseToLocalDateTime(String dateTimeString) {

@@ -36,7 +36,7 @@ public class ForecastMapper  {
         weatherForecast.setMinTemperature(forecastDto.getDailyForecasts().get(0).getTemperature().getMinimum().getValue());
         weatherForecast.setDescription(forecastDto.getHeadline().getText());
         weatherForecast.setCity(city);
-        System.out.println(weatherForecast.getCity().getCityName());
+        System.out.println(weatherForecast.getCity().getCityKey());
         return weatherForecast;
     }
 

@@ -4,12 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +21,7 @@ public class City {
     private String country;
     private String timeZone;
 
-    public City(long id, String cityKey, String cityName, String country, String timeZone) {
-        this.id = id;
-        this.cityKey = cityKey;
-        this.cityName = cityName;
-        this.country = country;
-        this.timeZone = timeZone;
-    }
+
 
     public City() {
     }
