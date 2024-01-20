@@ -1,5 +1,6 @@
 package pl.nauka.weatherappupdater.updater;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.nauka.weatherappclient.weatherClient.contract.CityInfoDto;
@@ -63,22 +64,30 @@ public class Updater implements IUpdate{
     }
 
     @Override
+    @Transactional
     public void saveDataByCityName(String cityName) {
-        var city=client.getCityInfo(cityName).get(0);
-         saveCity(city);
-       //  saveConditions(city);
-         saveForecast(city);
+        var cityDto = client.getCityInfo(cityName).get(0);
+        var city = cityMapper.map(cityDto);
+        var existingCity = dbCatalog.getCities().findCitiesByCityName(cityDto.getEnglishName());
 
+        if (existingCity != null) {
+            throw new RuntimeException("City already exists in database");
+        } else {
+            dbCatalog.getCities().save(city);
+            var forecastDto = client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
+            var forecast = forecastMapper.map(forecastDto, cityDto);
+            dbCatalog.getWeatherForecast().save(forecast);
+        }
     }
-    private void saveForecast(CityInfoDto cityDto) {
+    private void saveForecast(CityInfoDto cityDto, City city) {
        var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
         var forecast=forecastMapper.map(forecastDto, cityDto);
+        forecast.setCity(city);
          dbCatalog.getWeatherForecast().save(forecast);
     }
 
     private void saveCity(CityInfoDto cityDto) {
-        var city = cityMapper.map(cityDto);
-        dbCatalog.getCities().save(city);
+
     }
 
     private void saveConditions(CityInfoDto cityDto) {
