@@ -15,7 +15,8 @@ public class WeatherForecast {
     long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_key")
+    //@JoinColumn(name = "city_key")
+    @JoinColumn(name = "city_id")
     private City city;
 
     @Column(name = "date")
@@ -24,7 +25,7 @@ public class WeatherForecast {
     @Column(name = "max_temperature")
     private double maxTemperature;
 
-    @Column(name = "min_temperature")
+     @Column(name = "min_temperature")
     private double minTemperature;
 
     @Column(name = "description")
@@ -33,9 +34,9 @@ public class WeatherForecast {
     public WeatherForecast() {
     }
 
-    public WeatherForecast(long id, City city, LocalDateTime dateTime, double maxTemperature, double minTemperature, String description) {
-        this.id = id;
-        this.city = city;
+    public WeatherForecast(LocalDateTime dateTime, double maxTemperature, double minTemperature, String description) {
+
+
         this.dateTime = dateTime;
         this.maxTemperature = maxTemperature;
         this.minTemperature = minTemperature;

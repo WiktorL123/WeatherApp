@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 
 @Entity
 public class WeatherConditions {
@@ -22,8 +21,8 @@ public class WeatherConditions {
 
 
     @ManyToOne
-    @JoinColumn(name = "city_key")
-   // @JoinColumn(name = "city_id")
+  // @JoinColumn(name = "city_key")
+    @JoinColumn(name = "city_id")
     private City city;
     private double temperature;
     private String description;
@@ -32,15 +31,12 @@ public class WeatherConditions {
 //    public WeatherConditions() {
 //    }
 //
-//    public WeatherConditions(long id, City city, double temperature, double humidity, double pressure, String description) {
-//        this.id = id;
-//        this.city = city;
-//        this.temperature = temperature;
-//        this.humidity = humidity;
-//        this.pressure = pressure;
-//        this.description = description;
-//    }
-//
+    public WeatherConditions( double temperature, double humidity, double pressure, String description) {
+
+        this.temperature = temperature;
+        this.description = description;
+    }
+
 //    public long getId() {
 //        return id;
 //    }

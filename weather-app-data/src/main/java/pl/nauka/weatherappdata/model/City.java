@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
+
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,12 @@ public class City {
     public City() {
     }
 
+    public City(String cityKey, String cityName, String country, String timeZone) {
+        this.cityKey = cityKey;
+        this.cityName = cityName;
+        this.country = country;
+        this.timeZone = timeZone;
+    }
 
     @Override
     public int hashCode() {

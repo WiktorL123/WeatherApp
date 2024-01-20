@@ -21,14 +21,10 @@ import java.util.List;
 public class Updater implements IUpdate{
 
     private final ICatalogData dbCatalog;
-
     private final IWeatherClient client;
-
-   private final CityMapper cityMapper;
-
-   private final WeatherConditionsMapper conditionsMapper;
-
-   private final ForecastMapper forecastMapper;
+    private final CityMapper cityMapper;
+    private final WeatherConditionsMapper conditionsMapper;
+    private final ForecastMapper forecastMapper;
 
 
         @Autowired
@@ -71,12 +67,15 @@ public class Updater implements IUpdate{
         var existingCity = dbCatalog.getCities().findCitiesByCityName(cityDto.getEnglishName());
 
         if (existingCity != null) {
-            throw new RuntimeException("City already exists in database");
+            throw new RuntimeException("City exists in database");
         } else {
             dbCatalog.getCities().save(city);
             var forecastDto = client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
+            var conditionsDto = client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
             var forecast = forecastMapper.map(forecastDto, cityDto);
+            var conditions = conditionsMapper.map(conditionsDto, cityDto);
             dbCatalog.getWeatherForecast().save(forecast);
+            dbCatalog.getWeatherConditions().save(conditions);
         }
     }
     private void saveForecast(CityInfoDto cityDto, City city) {
