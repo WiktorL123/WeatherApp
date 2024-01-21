@@ -1,36 +1,32 @@
 package pl.nauka.weatherappupdater.mapers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 import pl.nauka.weatherappclient.weatherClient.contract.CityInfoDto;
 import pl.nauka.weatherappclient.weatherClient.contract.ForecastDto;
-import pl.nauka.weatherappclient.weatherClient.contract.clients.WeatherClient;
+import pl.nauka.weatherappdata.model.City;
 import pl.nauka.weatherappdata.model.WeatherForecast;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
-
+@RequiredArgsConstructor
 public class ForecastMapper  {
-    CityMapper cityMapper;
-    WeatherClient client;
+   private final CityMapper cityMapper;
 
-@Autowired
-    public ForecastMapper(CityMapper cityMapper, WeatherClient client) {
-        this.cityMapper = cityMapper;
-        this.client=client;
 
+
+
+
+    public WeatherForecast map(ForecastDto forecastDto, City city) {
+        return map(forecastDto, new WeatherForecast(), city);
     }
 
 
-    public WeatherForecast map(ForecastDto forecastDto, CityInfoDto cityDto) {
-        return map(forecastDto, new WeatherForecast(), cityDto);
-    }
-
-
-    public WeatherForecast map(ForecastDto forecastDto, WeatherForecast weatherForecast, CityInfoDto cityDto) {
-        var city=cityMapper.map(cityDto);
+    public WeatherForecast map(ForecastDto forecastDto, WeatherForecast weatherForecast, City city) {
+        //var city=cityMapper.map(cityDto);
         weatherForecast.setDateTime(parseToLocalDateTime(forecastDto.getHeadline().getEffectiveDate()));
         weatherForecast.setMaxTemperature(forecastDto.getDailyForecasts().get(0).getTemperature().getMaximum().getValue());
         weatherForecast.setMinTemperature(forecastDto.getDailyForecasts().get(0).getTemperature().getMinimum().getValue());

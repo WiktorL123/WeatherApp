@@ -43,19 +43,19 @@ public class Updater implements IUpdate{
             var cityDto=client.getCityInfo(cityName).get(0);
         var city=cityMapper.map(cityDto);
 
-        var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityName);
+//        var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityName);
+//
+//        var conditionsDto=client.getCurrentWeather(cityDto.getKey(), cityName).get(0);
+//        WeatherForecast forecast=forecastMapper.map(forecastDto, cityDto);
 
-        var conditionsDto=client.getCurrentWeather(cityDto.getKey(), cityName).get(0);
-        WeatherForecast forecast=forecastMapper.map(forecastDto, cityDto);
 
-
-        WeatherConditions conditions = conditionsMapper.map(conditionsDto, cityDto);
-        System.out.println(forecast.getDescription());
-        System.out.println(conditions.getDescription());
-        System.out.println(city.getCityName());
-        System.out.println("------------------------------");
-        System.out.println(forecast.getCity().getCityKey());
-        System.out.println(conditions.getCity().getCityKey());
+       // WeatherConditions conditions = conditionsMapper.map(conditionsDto, cityDto);
+//        System.out.println(forecast.getDescription());
+//        System.out.println(conditions.getDescription());
+//        System.out.println(city.getCityName());
+//        System.out.println("------------------------------");
+//        System.out.println(forecast.getCity().getCityKey());
+//        System.out.println(conditions.getCity().getCityKey());
 
     }
 
@@ -63,26 +63,26 @@ public class Updater implements IUpdate{
     @Transactional
     public void saveDataByCityName(String cityName) {
         var cityDto = client.getCityInfo(cityName).get(0);
-        var city = cityMapper.map(cityDto);
         var existingCity = dbCatalog.getCities().findCitiesByCityName(cityDto.getEnglishName());
-
         if (existingCity != null) {
-            throw new RuntimeException("City exists in database");
+
         } else {
+
+            var city = cityMapper.map(cityDto);
             dbCatalog.getCities().save(city);
             var forecastDto = client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
-            var conditionsDto = client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
-            var forecast = forecastMapper.map(forecastDto, cityDto);
-            var conditions = conditionsMapper.map(conditionsDto, cityDto);
+            var forecast = forecastMapper.map(forecastDto, city);
             dbCatalog.getWeatherForecast().save(forecast);
+            var conditionsDto = client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
+            var conditions = conditionsMapper.map(conditionsDto, city);
             dbCatalog.getWeatherConditions().save(conditions);
         }
     }
     private void saveForecast(CityInfoDto cityDto, City city) {
-       var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
-        var forecast=forecastMapper.map(forecastDto, cityDto);
-        forecast.setCity(city);
-         dbCatalog.getWeatherForecast().save(forecast);
+//        var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
+//        var forecast=forecastMapper.map(forecastDto, cityDto);
+//        forecast.setCity(city);
+//         dbCatalog.getWeatherForecast().save(forecast);
     }
 
     private void saveCity(CityInfoDto cityDto) {
@@ -91,9 +91,9 @@ public class Updater implements IUpdate{
 
     private void saveConditions(CityInfoDto cityDto) {
 
-        var conditionsDto=client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
-        var conditions=conditionsMapper.map(conditionsDto, cityDto);
-        dbCatalog.getWeatherConditions().save(conditions);
+//        var conditionsDto=client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
+//        var conditions=conditionsMapper.map(conditionsDto, cityDto);
+//        dbCatalog.getWeatherConditions().save(conditions);
     }
 
     @Override
