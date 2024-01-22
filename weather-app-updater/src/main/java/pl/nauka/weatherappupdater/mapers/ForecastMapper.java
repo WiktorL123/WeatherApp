@@ -28,8 +28,10 @@ public class ForecastMapper  {
     public WeatherForecast map(ForecastDto forecastDto, WeatherForecast weatherForecast, City city) {
         //var city=cityMapper.map(cityDto);
         weatherForecast.setDateTime(parseToLocalDateTime(forecastDto.getHeadline().getEffectiveDate()));
-        weatherForecast.setMaxTemperature(forecastDto.getDailyForecasts().get(0).getTemperature().getMaximum().getValue());
-        weatherForecast.setMinTemperature(forecastDto.getDailyForecasts().get(0).getTemperature().getMinimum().getValue());
+        var temoCelcMin=makeCelcius(forecastDto.getDailyForecasts().get(0).getTemperature().getMinimum().getValue());
+        var temoCelcMax=makeCelcius(forecastDto.getDailyForecasts().get(0).getTemperature().getMaximum().getValue());
+        weatherForecast.setMaxTemperature(temoCelcMax);
+        weatherForecast.setMinTemperature(temoCelcMin);
         weatherForecast.setDescription(forecastDto.getHeadline().getText());
         weatherForecast.setCity(city);
        // System.out.println(weatherForecast.getCity().getCityKey());
@@ -41,6 +43,9 @@ public class ForecastMapper  {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ssXXX");
 
         return LocalDateTime.parse(dateTimeString.replace("T", ""), formatter);
+    }
+    private double makeCelcius(double farenheitTemp){
+        return (farenheitTemp-32)/2;
     }
 }
 

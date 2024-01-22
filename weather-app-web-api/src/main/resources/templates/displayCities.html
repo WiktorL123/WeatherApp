@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cities</title>
+</head>
+<body>
+    <table>
+        <thead>
+        <th>ID</th>
+        <th>city_name</th>
+        <th>city_key</th>
+        <th>country</th>
+        <th>time-zone</th>
+        </thead>
+        <tbody>
+        <tr th:each= "city: ${cities}">
+            <td th:text="${city.getCityName()}"></td>
+            <td th:text="${city.getCountry()}"></td>
+            <td th:text="${city.getTimeZone()}"></td>
+
+
+        </tr>
+        </tbody>
+    </table>
+    <a href=displayCurrentWeather.html>Display Current Weather</a>
+</body>
+</html>

@@ -15,9 +15,10 @@ public interface IUpdate {
     void updateByCityName(String cityName);
     public void testAllMapers();
 
-    void saveDataByCityName(String cityName);
+    boolean saveDataByCityName(String cityName);
     ConditionsDto getConditions();
     CityInfoDto getCity();
    ForecastDto getDailyForecast();
    City saveEntity();
+
 }

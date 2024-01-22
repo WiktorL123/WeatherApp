@@ -9,6 +9,7 @@ import pl.nauka.weatherappdata.repositories.ICatalogData;
 import pl.nauka.weatherappdata.repositories.WeatherConditionsRepository;
 import pl.nauka.weatherappdata.repositories.WeatherForecastRepository;
 import pl.nauka.weatherappwebapi.contract.CityDto;
+import pl.nauka.weatherappwebapi.contract.ConditionsDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,5 +37,9 @@ public class WeatherService {
                 city.getCountry(),
                 city.getTimeZone()
         );
+    }
+
+    public List<ConditionsDto> getConditions() {
+        return null;
     }
 }

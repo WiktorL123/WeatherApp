@@ -61,13 +61,13 @@ public class Updater implements IUpdate{
 
     @Override
     @Transactional
-    public void saveDataByCityName(String cityName) {
+    public boolean saveDataByCityName(String cityName) {
         var cityDto = client.getCityInfo(cityName).get(0);
         var existingCity = dbCatalog.getCities().findCitiesByCityName(cityDto.getEnglishName());
         if (existingCity != null) {
+            return false;
 
         } else {
-
             var city = cityMapper.map(cityDto);
             dbCatalog.getCities().save(city);
             var forecastDto = client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
@@ -76,8 +76,10 @@ public class Updater implements IUpdate{
             var conditionsDto = client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
             var conditions = conditionsMapper.map(conditionsDto, city);
             dbCatalog.getWeatherConditions().save(conditions);
+            return true;
         }
     }
+
     private void saveForecast(CityInfoDto cityDto, City city) {
 //        var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
 //        var forecast=forecastMapper.map(forecastDto, cityDto);
@@ -85,26 +87,47 @@ public class Updater implements IUpdate{
 //         dbCatalog.getWeatherForecast().save(forecast);
     }
 
-    private void saveCity(CityInfoDto cityDto) {
 
-    }
 
-    private void saveConditions(CityInfoDto cityDto) {
+//    @Override
 
-//        var conditionsDto=client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
-//        var conditions=conditionsMapper.map(conditionsDto, cityDto);
-//        dbCatalog.getWeatherConditions().save(conditions);
-    }
 
     @Override
-    public void updateByCityName(String cityName){
+    public void updateByCityName(String cityName) {
+        var existingCity = dbCatalog.getCities().findCitiesByCityName(cityName);
 
-        var existingEntity=dbCatalog.getCities().findCitiesByCityName(cityName);
+        if (existingCity != null) {
+            var cityInfo = client.getCityInfo(cityName).get(0);
+            var city = cityMapper.map(cityInfo);
 
+            var existingConditions = dbCatalog.getWeatherConditions().findByCityId(existingCity.getId()).orElse(null);
+            var existingForecast = dbCatalog.getWeatherForecast().findByCityId(existingCity.getId()).orElse(null);
 
+            if (existingForecast != null && existingConditions != null) {
+                var conditionsDto = client.getCurrentWeather(cityInfo.getKey(), cityInfo.getEnglishName()).get(0);
+                var conditions = conditionsMapper.map(conditionsDto, city);
 
+                var forecastDto = client.getWeatherForecast(cityInfo.getKey(), cityInfo.getEnglishName());
+                var forecast = forecastMapper.map(forecastDto, city);
 
+                existingForecast.setDescription(forecast.getDescription());
+                existingForecast.setMinTemperature(forecast.getMinTemperature());
+                existingForecast.setMaxTemperature(forecast.getMaxTemperature());
+                existingForecast.setDateTime(forecast.getDateTime());
+
+                existingConditions.setCity(existingCity);
+                existingConditions.setTemperature(conditions.getTemperature());
+                existingConditions.setDescription(conditions.getDescription());
+                existingConditions.setDate(conditions.getDate());
+
+                dbCatalog.getWeatherForecast().save(existingForecast);
+                dbCatalog.getWeatherConditions().save(existingConditions);
+            }
+        }
     }
+
+
+
     @Override
     public ForecastDto getDailyForecast(){
             String string="1-275174_1_AL";
