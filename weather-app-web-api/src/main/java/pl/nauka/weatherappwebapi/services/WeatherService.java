@@ -1,13 +1,10 @@
 package pl.nauka.weatherappwebapi.services;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.nauka.weatherappdata.model.City;
+import pl.nauka.weatherappdata.model.WeatherConditions;
 import pl.nauka.weatherappdata.repositories.ICatalogData;
-import pl.nauka.weatherappdata.repositories.WeatherConditionsRepository;
-import pl.nauka.weatherappdata.repositories.WeatherForecastRepository;
 import pl.nauka.weatherappwebapi.contract.CityDto;
 import pl.nauka.weatherappwebapi.contract.ConditionsDto;
 
@@ -23,14 +20,14 @@ public class WeatherService {
     public List<CityDto> getCities() {
       var cities=db.getCities().findAll();
      var list= cities.stream()
-              .map(this::maptoDto)
+              .map(this::MaptoCityDto)
               .collect(Collectors.toList());
      for (var city:list)
          System.out.println(city.getCityKey());
      return  list;
 
     }
-    private CityDto maptoDto(City city){
+    private CityDto MaptoCityDto(City city){
         return  new CityDto(
                 city.getCityKey(),
                 city.getCityName(),
@@ -40,6 +37,12 @@ public class WeatherService {
     }
 
     public List<ConditionsDto> getConditions() {
-        return null;
+        var weatherConditions = db.getWeatherConditions().findAllWithCity();
+      return  weatherConditions.stream()
+                .map(conditions->mapToConditionsDto(conditions)).collect(Collectors.toList());
+    }
+    private ConditionsDto mapToConditionsDto(WeatherConditions conditions){
+        return new ConditionsDto(conditions.getCity().getCityName()
+        , conditions.getTemperature(), conditions.getDescription(), conditions.getDate());
     }
 }

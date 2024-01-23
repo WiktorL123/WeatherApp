@@ -1,6 +1,7 @@
 package pl.nauka.weatherappwebapi.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.nauka.weatherappwebapi.services.WeatherService;
 
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class WeatherController {
@@ -20,12 +21,12 @@ public class WeatherController {
         System.out.println("calling city method");
 
         model.addAttribute("cities",  service.getCities());
-        return "/templates/displayCities";
+        return "displayCities";
     }
     @GetMapping(value = "/conditions")
     public String getConditions(Model model){
-        model.addAttribute("cities",  service.getConditions());
-        return "displayCurrentConditions";
+        model.addAttribute("conditions",  service.getConditions());
+        return "displayCurrentWeather";
     }
 
 

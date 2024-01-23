@@ -7,9 +7,7 @@
 <body>
     <table>
         <thead>
-        <th>ID</th>
         <th>city_name</th>
-        <th>city_key</th>
         <th>country</th>
         <th>time-zone</th>
         </thead>
@@ -23,6 +21,6 @@
         </tr>
         </tbody>
     </table>
-    <a href=displayCurrentWeather.html>Display Current Weather</a>
+    <a th:href="@{/api/conditions}">Display Current Weather</a>
 </body>
 </html>

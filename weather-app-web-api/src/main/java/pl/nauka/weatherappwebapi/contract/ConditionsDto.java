@@ -10,8 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class ConditionsDto {
-    private CityDto city;
+    private String cityName;
     private double temperature;
     private String description;
     private LocalDateTime date;
+
+
+
 }

@@ -5,6 +5,22 @@
     <title>current weather</title>
 </head>
 <body>
+        <table>
+            <thead>
+            <th>city name</th>
+            <th>temperature</th>
+            <th>description</th>
+            <th>date</th>
+            </thead>
+            <tbody>
+            <tr th:each="weather: ${conditions}">
+                <td th:text="${weather.getCityName()}"></td>
+                <td th:text="${weather.getTemperature()}" >&deg;C</td>
+                <td th:text="${weather.getDescription()}"></td>
+                <td th:text="${weather.getDate()}"></td>
 
+            </tr>
+            </tbody>
+        </table>
 </body>
 </html>

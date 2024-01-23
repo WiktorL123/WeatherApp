@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.nauka.weatherappdata.repositories.ICatalogData;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "pl.nauka.weatherappdata")
 public class WeatherAppDataApplication {
     private final ICatalogData db;
 
