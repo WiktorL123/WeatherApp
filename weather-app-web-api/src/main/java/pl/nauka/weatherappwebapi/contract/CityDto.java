@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CityDto {
+    private long id;
     private String cityKey;
 
     private String cityName;

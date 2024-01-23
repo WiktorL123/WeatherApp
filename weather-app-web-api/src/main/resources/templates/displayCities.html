@@ -18,16 +18,19 @@
 <body>
     <table>
         <thead>
+        <th> city id </th>
         <th>city_name</th>
         <th>country</th>
         <th>time-zone</th>
         </thead>
         <tbody>
         <tr th:each= "city: ${cities}">
+            <td th:text="${city.getId()}"></td>
             <td th:text="${city.getCityName()}"></td>
             <td th:text="${city.getCountry()}"></td>
             <td th:text="${city.getTimeZone()}"></td>
-
+            <td><a th:href="@{'api/delete/'+${city.getId()}}">delete</a>
+            </td>
 
         </tr>
         </tbody>

@@ -6,6 +6,7 @@ import pl.nauka.weatherappdata.model.City;
 import pl.nauka.weatherappdata.model.WeatherConditions;
 import pl.nauka.weatherappdata.model.WeatherForecast;
 import pl.nauka.weatherappdata.repositories.ICatalogData;
+import pl.nauka.weatherappdata.repositories.WeatherForecastRepository;
 import pl.nauka.weatherappwebapi.contract.CityDto;
 import pl.nauka.weatherappwebapi.contract.ConditionsDto;
 import pl.nauka.weatherappwebapi.contract.ForecastDto;
@@ -31,6 +32,7 @@ public class WeatherService {
     }
     private CityDto MaptoCityDto(City city){
         return  new CityDto(
+                city.getId(),
                 city.getCityKey(),
                 city.getCityName(),
                 city.getCountry(),
@@ -61,5 +63,42 @@ public class WeatherService {
                 weatherForecast.getMaxTemperature(),
                 weatherForecast.getMinTemperature(),
                 weatherForecast.getDescription());
+    }
+
+    public boolean deleteWeatherData(Long id) {
+        var city = findCityById(id);
+        if (city==null)
+            return false;
+        else {
+            var conditions = findConditionsByCityId(id);
+            var forecasts = findForecastsByCityId(id);
+            db.getWeatherConditions().delete(conditions);
+            db.getWeatherForecast().delete(forecasts);
+            db.getCities().delete(city);
+            return true;
+        }
+    }
+
+    private WeatherForecast findForecastsByCityId(Long id) {
+        return
+                db.getWeatherForecast()
+                        .findByCityId(id).orElse(null);
+    }
+
+    private WeatherConditions findConditionsByCityId(Long id) {
+      return
+              db.getWeatherConditions().
+                      findByCityId(id).orElse(null);
+    }
+
+    public City findCityById(Long id) {
+        return db.getCities()
+                .findById(id).orElse(null);
+    }
+
+    public CityDto findCityDtoById(Long id) {
+        return
+                MaptoCityDto(db.getCities().findById(id)
+                        .orElse(null));
     }
 }

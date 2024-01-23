@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>confirmation</title>
+</head>
+<body>
+    <form method="post" th:action="@{'api/delete/confirm/'+${city.getId()}}" action="#">
+        <input type="submit" value="confirm city delete">
+    </form>
+</body>
+</html>

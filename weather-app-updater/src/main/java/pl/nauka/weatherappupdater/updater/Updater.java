@@ -126,7 +126,27 @@ public class Updater implements IUpdate{
         }
     }
 
-
+    @Override
+    public boolean deleteDataByCityName(Long id) {
+            try{
+                var city = dbCatalog.getCities().findById(id).orElse(null);
+                if (city==null)
+                    return false;
+                else {
+                    var conditions = dbCatalog.getWeatherConditions()
+                            .findByCityId(id).orElse(null);
+                    var forecasts = dbCatalog.getWeatherForecast()
+                            .findByCityId(id).orElse(null);
+                    dbCatalog.getCities().delete(city);
+                    dbCatalog.getWeatherConditions().delete(conditions);
+                    dbCatalog.getWeatherForecast().delete(forecasts);
+                    return true;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }
 
     @Override
     public ForecastDto getDailyForecast(){
