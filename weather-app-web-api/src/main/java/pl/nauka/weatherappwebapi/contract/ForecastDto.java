@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class ForecastDto {
-    private CityDto city;
+    private String cityName;
 
 
     private LocalDateTime dateTime;

@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>current weather</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
 </head>
-<body>
-        <table>
+<body >
+        <table >
             <thead>
             <th>city name</th>
             <th>temperature</th>
@@ -22,5 +34,7 @@
             </tr>
             </tbody>
         </table>
+        <a th:href="@{/api/cities}">Display all cities in database</a>
+        <a th:href="@{/api/forecasts}">Display forecasts for cities</a>
 </body>
 </html>

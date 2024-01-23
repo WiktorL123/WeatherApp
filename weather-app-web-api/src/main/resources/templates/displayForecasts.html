@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forecast</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
+
+</head>
+<body>
+    <table >
+        <thead>
+        <th>city name</th>
+        <th>date</th>
+        <th>min temperature</th>
+        <th>max temperature</th>
+        <th>description</th>
+        </thead>
+        <tbody>
+        <tr th:each="forecast:${forecasts}">
+            <td th:text="${forecast.getCityName()}"></td>
+            <td th:text="${forecast.getDateTime()}"></td>
+            <td th:text="${forecast.getMinTemperature()}"></td>
+            <td th:text="${forecast.getMaxTemperature()}"></td>
+            <td th:text="${forecast.getDescription()}"></td>
+        </tr>
+        </tbody>
+
+    </table>
+    <a th:href="@{/api/cities}">Display all cities in database</a>
+    <a th:href="@{/api/conditions}">Display Current Weather</a>
+</body>
+</html>

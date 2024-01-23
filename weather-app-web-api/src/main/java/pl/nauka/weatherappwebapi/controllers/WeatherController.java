@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import pl.nauka.weatherappwebapi.services.WeatherService;
 
 
@@ -27,6 +26,11 @@ public class WeatherController {
     public String getConditions(Model model){
         model.addAttribute("conditions",  service.getConditions());
         return "displayCurrentWeather";
+    }
+    @GetMapping(value = "/forecasts")
+    public String getForecasts(Model model){
+        model.addAttribute("forecasts", service.getForecasts());
+        return "displayForecasts";
     }
 
 
