@@ -24,23 +24,6 @@ public class UpdateController {
     }
 
 
-//    @GetMapping("/test/conditions")
-//    public ResponseEntity<Double> getConditons(){
-//        var conditions=updater.getConditions();
-//        return ResponseEntity.ok(conditions.getTemperature().getMetric().getValue());
-//    }
-//    @GetMapping("/test/city")
-//    public ResponseEntity<String> getCity() {
-//        var cityInfo = updater.getCity();
-//        return ResponseEntity.ok(
-//                cityInfo.getLocalizedName());
-//    }
-//        @GetMapping("test/forecast")
-//                public ResponseEntity<String>getForecast(){
-//            var forecastInfo=updater.getDailyForecast();
-//            return ResponseEntity.ok(forecastInfo.getDailyForecasts().get(0).getDate());
-//        }
-
 
     @GetMapping("/add/{cityName}")
     public ResponseEntity<String> addDataToDataBase(@PathVariable String cityName){
@@ -61,17 +44,18 @@ public class UpdateController {
         return ResponseEntity.status(HttpStatus.OK).body("data succesfully updated");
 
     }
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping (value = "/delete/{id}")
     public ResponseEntity<String>deleteDataByCityId(@PathVariable Long id){
         try {
-            if (updater.deleteDataByCityName(id))
+            if (updater.deleteDataByCityId(id))
                 return ResponseEntity.ok("successfully deleted");
             else {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Something went wrong");
             }
         }catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong"+e.getMessage());
         }
     }
 }

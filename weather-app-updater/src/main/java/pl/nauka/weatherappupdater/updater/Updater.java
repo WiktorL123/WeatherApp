@@ -5,16 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.nauka.weatherappclient.weatherClient.contract.CityInfoDto;
 import pl.nauka.weatherappclient.weatherClient.contract.ConditionsDto;
-import pl.nauka.weatherappclient.weatherClient.contract.DailyForecastDto;
+
 import pl.nauka.weatherappclient.weatherClient.contract.ForecastDto;
 import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherClient;
 import pl.nauka.weatherappdata.model.City;
-import pl.nauka.weatherappdata.model.WeatherConditions;
-import pl.nauka.weatherappdata.model.WeatherForecast;
+
 import pl.nauka.weatherappdata.repositories.ICatalogData;
 import pl.nauka.weatherappupdater.mapers.*;
 
-import java.util.List;
+
 
 
 @Service
@@ -126,28 +125,56 @@ public class Updater implements IUpdate{
         }
     }
 
-    @Override
-    public boolean deleteDataByCityName(Long id) {
-            try{
-                var city = dbCatalog.getCities().findById(id).orElse(null);
-                if (city==null)
-                    return false;
-                else {
-                    var conditions = dbCatalog.getWeatherConditions()
-                            .findByCityId(id).orElse(null);
-                    var forecasts = dbCatalog.getWeatherForecast()
-                            .findByCityId(id).orElse(null);
-                    dbCatalog.getCities().delete(city);
-                    dbCatalog.getWeatherConditions().delete(conditions);
-                    dbCatalog.getWeatherForecast().delete(forecasts);
-                    return true;
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-                return false;
-            }
-        }
+//    @Override
+//    public boolean deleteDataByCityName(Long id) {
+//            try{
+//                var cityOptional = dbCatalog.getCities().findById(id);
+//                var city = cityOptional.orElse(null);
+//                if (city==null)
+//                    return false;
+//                else {
+//
+//                    var conditions = dbCatalog.getWeatherConditions()
+//                            .findByCityId(id).orElse(null);
+//                    var forecasts = dbCatalog.getWeatherForecast()
+//                            .findByCityId(id).orElse(null);
+//                    dbCatalog.getWeatherConditions().delete(conditions);
+//                    dbCatalog.getWeatherForecast().delete(forecasts);
+//                    dbCatalog.getCities().delete(city);
+//                    return true;
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//                return false;
+//            }
+//        }
+@Override
+public boolean deleteDataByCityId(Long id) {
+    try {
+        var cityOptional = dbCatalog.getCities().findById(id);
+        var city = cityOptional.orElse(null);
 
+        if (city == null) {
+
+            return false;
+        } else {
+            var conditions = dbCatalog.getWeatherConditions().findByCityId(id).orElse(null);
+            var forecasts = dbCatalog.getWeatherForecast().findByCityId(id).orElse(null);
+
+
+            dbCatalog.getWeatherConditions().delete(conditions);
+            dbCatalog.getWeatherForecast().delete(forecasts);
+
+
+            dbCatalog.getCities().delete(city);
+
+            return true;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
     @Override
     public ForecastDto getDailyForecast(){
             String string="1-275174_1_AL";

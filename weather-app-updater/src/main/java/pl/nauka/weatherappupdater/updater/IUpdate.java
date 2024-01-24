@@ -21,5 +21,5 @@ public interface IUpdate {
    ForecastDto getDailyForecast();
    City saveEntity();
 
-    boolean deleteDataByCityName(Long id);
+    boolean deleteDataByCityId(Long id);
 }
