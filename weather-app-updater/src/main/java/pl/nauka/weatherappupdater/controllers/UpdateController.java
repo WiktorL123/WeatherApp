@@ -58,4 +58,14 @@ public class UpdateController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong"+e.getMessage());
         }
     }
+    @GetMapping(value = "/updateAll")
+    public ResponseEntity<String> updateAll() {
+        if (updater.updateAll()) {
+            return ResponseEntity.status(HttpStatus.OK).body("Data successfully updated");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
+    }
+
+
 }

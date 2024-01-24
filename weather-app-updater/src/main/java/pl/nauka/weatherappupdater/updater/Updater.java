@@ -13,7 +13,7 @@ import pl.nauka.weatherappdata.model.City;
 import pl.nauka.weatherappdata.repositories.ICatalogData;
 import pl.nauka.weatherappupdater.mapers.*;
 
-
+import java.util.ArrayList;
 
 
 @Service
@@ -125,29 +125,7 @@ public class Updater implements IUpdate{
         }
     }
 
-//    @Override
-//    public boolean deleteDataByCityName(Long id) {
-//            try{
-//                var cityOptional = dbCatalog.getCities().findById(id);
-//                var city = cityOptional.orElse(null);
-//                if (city==null)
-//                    return false;
-//                else {
-//
-//                    var conditions = dbCatalog.getWeatherConditions()
-//                            .findByCityId(id).orElse(null);
-//                    var forecasts = dbCatalog.getWeatherForecast()
-//                            .findByCityId(id).orElse(null);
-//                    dbCatalog.getWeatherConditions().delete(conditions);
-//                    dbCatalog.getWeatherForecast().delete(forecasts);
-//                    dbCatalog.getCities().delete(city);
-//                    return true;
-//                }
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                return false;
-//            }
-//        }
+
 @Override
 public boolean deleteDataByCityId(Long id) {
     try {
@@ -175,6 +153,19 @@ public boolean deleteDataByCityId(Long id) {
         return false;
     }
 }
+
+
+        @Override
+        public boolean updateAll() {
+            var allCities = new ArrayList<>(dbCatalog.getCities().findAll());
+            for (var city : allCities) {
+                updateByCityName(city.getCityName());
+            }
+            return true;
+        }
+
+
+
     @Override
     public ForecastDto getDailyForecast(){
             String string="1-275174_1_AL";

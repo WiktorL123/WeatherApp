@@ -22,4 +22,6 @@ public interface IUpdate {
    City saveEntity();
 
     boolean deleteDataByCityId(Long id);
+
+    boolean updateAll();
 }
