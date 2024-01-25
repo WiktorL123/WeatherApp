@@ -44,7 +44,7 @@ public class UpdateController {
         return ResponseEntity.status(HttpStatus.OK).body("data succesfully updated");
 
     }
-    @DeleteMapping (value = "/delete/{id}")
+    @GetMapping (value = "/delete/{id}")
     public ResponseEntity<String>deleteDataByCityId(@PathVariable Long id){
         try {
             if (updater.deleteDataByCityId(id))
