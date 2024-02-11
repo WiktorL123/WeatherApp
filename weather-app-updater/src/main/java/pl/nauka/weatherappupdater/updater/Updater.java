@@ -10,6 +10,8 @@ import pl.nauka.weatherappclient.weatherClient.contract.ForecastDto;
 import pl.nauka.weatherappclient.weatherClient.contract.clients.IWeatherClient;
 import pl.nauka.weatherappdata.model.City;
 
+import pl.nauka.weatherappdata.model.WeatherConditions;
+import pl.nauka.weatherappdata.model.WeatherForecast;
 import pl.nauka.weatherappdata.repositories.ICatalogData;
 import pl.nauka.weatherappupdater.mapers.*;
 
@@ -61,7 +63,7 @@ public class Updater implements IUpdate{
     @Override
     @Transactional
     public boolean saveDataByCityName(String cityName) {
-        var cityDto = client.getCityInfo(cityName).get(0);
+        var cityDto = getCityInfoDto(cityName);
         var existingCity = dbCatalog.getCities().findCitiesByCityName(cityDto.getEnglishName());
         if (existingCity != null) {
             return false;
@@ -69,26 +71,32 @@ public class Updater implements IUpdate{
         } else {
             var city = cityMapper.map(cityDto);
             dbCatalog.getCities().save(city);
-            var forecastDto = client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
-            var forecast = forecastMapper.map(forecastDto, city);
-            dbCatalog.getWeatherForecast().save(forecast);
-            var conditionsDto = client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
-            var conditions = conditionsMapper.map(conditionsDto, city);
-            dbCatalog.getWeatherConditions().save(conditions);
+            saveForecast(cityDto, city);
+            saveConditions(cityDto, city);
             return true;
         }
     }
 
+    private void saveConditions(CityInfoDto cityDto, City city) {
+        var conditionsDto = client.getCurrentWeather(cityDto.getKey(), cityDto.getEnglishName()).get(0);
+        var conditions = conditionsMapper.map(conditionsDto, city);
+        dbCatalog.getWeatherConditions().save(conditions);
+    }
+
     private void saveForecast(CityInfoDto cityDto, City city) {
-//        var forecastDto=client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
-//        var forecast=forecastMapper.map(forecastDto, cityDto);
-//        forecast.setCity(city);
-//         dbCatalog.getWeatherForecast().save(forecast);
+        var forecastDto = client.getWeatherForecast(cityDto.getKey(), cityDto.getEnglishName());
+        var forecast = forecastMapper.map(forecastDto, city);
+        dbCatalog.getWeatherForecast().save(forecast);
+    }
+
+    private CityInfoDto getCityInfoDto(String cityName) {
+        var cityDto = client.getCityInfo(cityName).get(0);
+        return cityDto;
     }
 
 
 
-//    @Override
+
 
 
     @Override
@@ -96,7 +104,7 @@ public class Updater implements IUpdate{
         var existingCity = dbCatalog.getCities().findCitiesByCityName(cityName);
 
         if (existingCity != null) {
-            var cityInfo = client.getCityInfo(cityName).get(0);
+            var cityInfo = getCityInfoDto(cityName);
             var city = cityMapper.map(cityInfo);
 
             var existingConditions = dbCatalog.getWeatherConditions().findByCityId(existingCity.getId()).orElse(null);
@@ -109,15 +117,8 @@ public class Updater implements IUpdate{
                 var forecastDto = client.getWeatherForecast(cityInfo.getKey(), cityInfo.getEnglishName());
                 var forecast = forecastMapper.map(forecastDto, city);
 
-                existingForecast.setDescription(forecast.getDescription());
-                existingForecast.setMinTemperature(forecast.getMinTemperature());
-                existingForecast.setMaxTemperature(forecast.getMaxTemperature());
-                existingForecast.setDateTime(forecast.getDateTime());
-
-                existingConditions.setCity(existingCity);
-                existingConditions.setTemperature(conditions.getTemperature());
-                existingConditions.setDescription(conditions.getDescription());
-                existingConditions.setDate(conditions.getDate());
+                prepareForecast(existingForecast, forecast);
+                prepareCondidions(existingConditions, existingCity, conditions);
 
                 dbCatalog.getWeatherForecast().save(existingForecast);
                 dbCatalog.getWeatherConditions().save(existingConditions);
@@ -125,34 +126,48 @@ public class Updater implements IUpdate{
         }
     }
 
-
-@Override
-public boolean deleteDataByCityId(Long id) {
-    try {
-        var cityOptional = dbCatalog.getCities().findById(id);
-        var city = cityOptional.orElse(null);
-
-        if (city == null) {
-
-            return false;
-        } else {
-            var conditions = dbCatalog.getWeatherConditions().findByCityId(id).orElse(null);
-            var forecasts = dbCatalog.getWeatherForecast().findByCityId(id).orElse(null);
-
-
-            dbCatalog.getWeatherConditions().delete(conditions);
-            dbCatalog.getWeatherForecast().delete(forecasts);
-
-
-            dbCatalog.getCities().delete(city);
-
-            return true;
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+    private static void prepareCondidions(WeatherConditions existingConditions, City existingCity, WeatherConditions conditions) {
+        existingConditions.setCity(existingCity);
+        existingConditions.setTemperature(conditions.getTemperature());
+        existingConditions.setDescription(conditions.getDescription());
+        existingConditions.setDate(conditions.getDate());
     }
-}
+
+    private static void prepareForecast(WeatherForecast existingForecast, WeatherForecast forecast) {
+        existingForecast.setDescription(forecast.getDescription());
+        existingForecast.setMinTemperature(forecast.getMinTemperature());
+        existingForecast.setMaxTemperature(forecast.getMaxTemperature());
+        existingForecast.setDateTime(forecast.getDateTime());
+    }
+
+
+        @Override
+    public boolean deleteDataByCityId(Long id) {
+        try {
+            var cityOptional = dbCatalog.getCities().findById(id);
+            var city = cityOptional.orElse(null);
+
+            if (city == null) {
+
+                return false;
+            } else {
+                var conditions = dbCatalog.getWeatherConditions().findByCityId(id).orElse(null);
+                var forecasts = dbCatalog.getWeatherForecast().findByCityId(id).orElse(null);
+
+
+                dbCatalog.getWeatherConditions().delete(conditions);
+                dbCatalog.getWeatherForecast().delete(forecasts);
+
+
+                dbCatalog.getCities().delete(city);
+
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
         @Override

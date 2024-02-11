@@ -62,7 +62,8 @@ public class WeatherService {
                 weatherForecast.getDateTime(),
                 weatherForecast.getMaxTemperature(),
                 weatherForecast.getMinTemperature(),
-                weatherForecast.getDescription());
+                weatherForecast.getDescription()
+        );
     }
 
     public boolean deleteWeatherData(Long id) {
