@@ -51,6 +51,12 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>pl.nauka</groupId>
+            <artifactId>weather-app-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>

@@ -11,4 +11,6 @@ public interface WeatherForecastRepository extends JpaRepository<WeatherForecast
     Optional<WeatherForecast> findByCityId(Long cityId);
 @Query("SELECT fc from WeatherForecast  fc JOIN  fc.city city")
     List<WeatherForecast> findAllWithCity();
+
+
 }

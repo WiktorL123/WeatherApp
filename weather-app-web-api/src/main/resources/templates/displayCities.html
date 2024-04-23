@@ -4,38 +4,46 @@
     <meta charset="UTF-8">
     <title>Cities</title>
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+        /*table {*/
+        /*    border-collapse: collapse;*/
+        /*    width: 100%;*/
+        /*}*/
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-        }
+        /*th, td {*/
+        /*    border: 1px solid black;*/
+        /*    padding: 8px;*/
+        /*}*/
     </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <table>
-        <thead>
-        <th> city id </th>
-        <th>city_name</th>
-        <th>country</th>
-        <th>time-zone</th>
-        </thead>
-        <tbody>
-        <tr th:each= "city: ${cities}">
-            <td th:text="${city.getId()}"></td>
-            <td th:text="${city.getCityName()}"></td>
-            <td th:text="${city.getCountry()}"></td>
-            <td th:text="${city.getTimeZone()}"></td>
-            <td><a th:href="@{'api/delete/'+${city.getId()}}">delete</a>
-            </td>
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <th> city id </th>-->
+<!--        <th>city_name</th>-->
+<!--        <th>country</th>-->
+<!--        <th>time-zone</th>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each= "city: ${cities}">-->
+<!--            <td th:text="${city.getId()}"></td>-->
+<!--            <td th:text="${city.getCityName()}"></td>-->
+<!--            <td th:text="${city.getCountry()}"></td>-->
+<!--            <td th:text="${city.getTimeZone()}"></td>-->
+<!--            <td><a th:href="@{'api/delete/'+${city.getId()}}">delete</a>-->
+<!--            </td>-->
 
-        </tr>
-        </tbody>
-    </table>
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
     <a th:href="@{/api/conditions}">Display Current Weather</a>
     <a th:href="@{/api/forecasts}">Display forecasts for cities</a>
+    <div class="elo" th:each = "city: ${cities}">
+        <span class="elo-span"  >
+            <h3 th:text="${city.getCityName()}"></h3>
+        </span>
+    </div>
+
+
 </body>
 </html>

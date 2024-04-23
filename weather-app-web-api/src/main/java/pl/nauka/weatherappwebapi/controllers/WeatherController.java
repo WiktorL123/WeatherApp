@@ -30,6 +30,15 @@ public class WeatherController {
         model.addAttribute("conditions",  service.getConditions());
         return "displayCurrentWeather";
     }
+
+
+    @GetMapping(value = "conditions/{cityName}")
+    public String getWeatherByCityName(Model model, @PathVariable("cityName") String cityName){
+        System.out.println("city name"+cityName);
+        model.addAttribute("weatherByCityName", service.findByCityName(cityName));
+
+        return "WeatherByCityName";
+    }
     @GetMapping(value = "/forecasts")
     public String getForecasts(Model model){
         model.addAttribute("forecasts", service.getForecasts());

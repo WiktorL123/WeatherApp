@@ -1,7 +1,10 @@
 package pl.nauka.weatherappwebapi.services;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.nauka.weatherappclient.weatherClient.contract.clients.WeatherClient;
 import pl.nauka.weatherappdata.model.City;
 import pl.nauka.weatherappdata.model.WeatherConditions;
 import pl.nauka.weatherappdata.model.WeatherForecast;
@@ -18,6 +21,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WeatherService {
     private  final ICatalogData db;
+//    private final WeatherClient client;
+
+
+
+
 
 
     public List<CityDto> getCities() {
@@ -101,4 +109,14 @@ public class WeatherService {
                 MaptoCityDto(db.getCities().findById(id)
                         .orElse(null));
     }
+    public ConditionsDto findByCityName(String cityName){
+        var city = db.getCities().findCitiesByCityName(cityName);
+        System.out.println(city.getCityKey()+ "dupa"+ city.getCityName());
+       var sample = db.getWeatherConditions().findWeatherConditionsByCity(city);
+       var sample1 =mapToConditionsDto(sample);
+
+        return sample1 ;
+    }
+
+
 }
