@@ -34,7 +34,7 @@ public class WeatherController {
 
     @GetMapping(value = "conditions/{cityName}")
     public String getWeatherByCityName(Model model, @PathVariable("cityName") String cityName){
-        System.out.println("city name"+cityName);
+//        System.out.println("city name"+cityName);
         model.addAttribute("weatherByCityName", service.findByCityName(cityName));
 
         return "WeatherByCityName";

@@ -112,11 +112,10 @@ public class WeatherService {
     }
     public ConditionsDto findByCityName(String cityName){
         var city = db.getCities().findCitiesByCityName(cityName);
-        System.out.println(city.getCityKey()+ "dupa"+ city.getCityName());
-       var sample = db.getWeatherConditions().findWeatherConditionsByCity(city);
-       var sample1 =mapToConditionsDto(sample);
+//        System.out.println(city.getCityKey()+ "dupa"+ city.getCityName());
+       var conditions = db.getWeatherConditions().findWeatherConditionsByCity(city);
 
-        return sample1 ;
+        return mapToConditionsDto(conditions);
     }
 
 
