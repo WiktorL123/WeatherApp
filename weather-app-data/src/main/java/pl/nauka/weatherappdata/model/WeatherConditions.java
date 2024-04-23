@@ -21,7 +21,6 @@ public class WeatherConditions {
 
 
     @ManyToOne
-  // @JoinColumn(name = "city_key")
     @JoinColumn(name = "city_id")
     private City city;
     private double temperature;
